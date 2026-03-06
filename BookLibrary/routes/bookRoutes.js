@@ -5,14 +5,16 @@ const {
  addBook,
  getBooks,
  updateBook,
- deleteBook
+ deleteBook,filterBooks
 } = require("../controllers/bookController")
+console.log("route run");
+const router = express.Router();
+router.post("/",middleware,addBook);
+router.get("/",middleware,getBooks);
+router.put("/:id",middleware,updateBook);
+router.delete("/:id",middleware,deleteBook);
 
-const router = express.Router()
-console.log("route hit");
-router.post("/",middleware,addBook)
-router.get("/",middleware,getBooks)
-router.put("/:id",middleware,updateBook)
-router.delete("/:id",middleware,deleteBook)
+router.get("/filter",middleware,filterBooks);
+
 
 module.exports = router

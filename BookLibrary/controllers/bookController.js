@@ -5,14 +5,14 @@ exports.addBook = async (req,res) => {
 
  try{
 
- const {title,author,tags,status} = req.body;
+ const {title,author,tags,status,userId} = req.body;
 
  const book = await Book.create({
   title,
   author,
   tags,
   status,
-  userId:req.user
+  userId:userId
  }); 
 
  res.status(200).json({book, message:"SUCCESS"});
@@ -28,8 +28,12 @@ exports.addBook = async (req,res) => {
 exports.getBooks = async (req,res) => {
 
  try{
+    
+ const books = await Book.find({userId:req.userId});
 
- const books = await Book.find({userId:req.user});
+ if(!books){
+ res.status(201).json({books, message:"SUCCESS"});
+ }
 
  res.status(200).json({books, message:"SUCCESS"});
 
@@ -44,17 +48,14 @@ exports.getBooks = async (req,res) => {
 exports.updateBook = async (req,res) => {
 
  try{
-
  const book = await Book.findById(req.params.id);
-
  if(!book){
   return res.status(404).json({message:"Book not found"});
  }
 
  if(book.userId.toString() !== req.userId){
-  return res.status(403).json({message:"Not allowed"});
+  return res.status(403).json({message:"Not allowed to update"});
  }
-
  const updatedBook = await Book.findByIdAndUpdate(
   req.params.id,
   req.body,
@@ -90,3 +91,24 @@ exports.deleteBook = async (req,res) => {
  }
 
 }
+
+exports.filterBooks = async (req, res) => {
+  try {
+    const { tags, status } = req.body; 
+    const query = {};
+
+  if (tags && tags.length > 0) {
+      query.tags = { $in: tags }; 
+    }
+    if (status) {
+      query.status = status;  
+    }
+
+    const books = await Book.find(query);
+
+    res.status(200).json({ books, message: "Filtered books fetched successfully" });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

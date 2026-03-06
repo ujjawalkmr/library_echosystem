@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken")
 
 const middleware = (req,res,next) => {
-console.log("middleware hits");
  const authHeader = req.headers.authorization;
 
  if(!authHeader){
@@ -14,7 +13,7 @@ console.log("middleware hits");
 
  const decoded = jwt.verify(token,process.env.JWT_SECRET);
 
- req.user = decoded.id;
+ req.userId = decoded.id;
 
  next();
 
