@@ -4,40 +4,39 @@ import { useState } from "react";
 import { addBook } from "../services/api";
 import toast from "react-hot-toast";  // import toast
 
-export default function BookForm({ refresh }) {
-
+export default function BookForm({ refresh ,books}) {
+const userId = books.length > 0 ? books[0].userId : null;
   const [form, setForm] = useState({
     title: "",
     author: "",
     tags: "",
-    status: "Want to Read"
+    status: "Want to Read",
+    userId:userId
   });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const token = localStorage.getItem("token");  // check login
-console.log("token print",token);
-    if (!token) {
-      toast.error("You must be logged in to add a book!");  // show toast
-      return;
-    }
+  const token = localStorage.getItem("token");
+  if (!token) {
+    toast.error("You must be logged in!");
+    return;
+  }
 
-    const payload = {
-      ...form,
-      tags: form.tags.split(",")  // convert to array
-    };
+  const payload = { ...form, tags: form.tags.split(",") ,userId:userId};
+  console.log("payload is :",payload);
 
-    try {
-      await addBook(payload);
-      toast.success("Book added successfully!");
-      refresh();
-      setForm({ title: "", author: "", tags: "", status: "Want to Read" }); // reset form
-    } catch (err) {
-      toast.error("Failed to add book");
-    }
-  };
-
+  try {
+    const res = await addBook(payload);
+    console.log("Book added:", res); //
+    toast.success("Book added successfully!");
+    refresh(); // make sure this triggers fetchBooks
+    setForm({ title: "", author: "", tags: "", status: "Want to Read" });
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to add book");
+  }
+};
   return (
     <form
       onSubmit={handleSubmit}

@@ -1,5 +1,5 @@
-const API = "http://localhost:5000/api";
-
+const API = process.env.NEXT_PUBLIC_BASEURL;
+console.log("base url is :",API)
 /* ---------------- AUTH ---------------- */
 
 export const signupUser = async (data) => {
@@ -22,7 +22,7 @@ export const loginUser = async (data) => {
     },
     body: JSON.stringify(data),
   });
-
+console.log("commimg data is:",res.json);
   return res.json();
 };
 
@@ -44,7 +44,6 @@ export const getBooks = async (filters = {}) => {
 
 export const addBook = async (data) => {
   const token = localStorage.getItem("token");
-
   const res = await fetch(`${API}/books`, {
     method: "POST",
     headers: {
@@ -67,5 +66,17 @@ export const deleteBook = async (id) => {
     },
   });
 
+  return res.json();
+};// src/services/api.js
+export const updateBook = async (id, data) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API}/books/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
   return res.json();
 };

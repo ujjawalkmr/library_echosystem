@@ -14,15 +14,16 @@ export default function Login(){
  })
 
  const handleSubmit = async(e)=>{
-
-  e.preventDefault()
-
-  const data = await loginUser(form)
-
-  localStorage.setItem("token",data.token)
-
-  router.push("/dashboard")
- }
+  e.preventDefault();   // MUST be first
+  console.log("coming data is: login page");
+  
+  const data = await loginUser(form);
+  console.log("API response:", data);
+  
+  if (data.token) {
+    localStorage.setItem("token", data.token);
+    router.push("/dashboard");
+  }}
 
  return(
 
@@ -37,19 +38,21 @@ export default function Login(){
     </h2>
 
     <input
-    placeholder="Email"
-    className="border p-2 w-full mb-3"
-    onChange={(e)=>setForm({...form,email:e.target.value})}
-    />
+  placeholder="Email"
+  className="border p-2 w-full mb-3"
+  value={form.email}   // bind value
+  onChange={(e)=>setForm({...form,email:e.target.value})}
+/>
 
-    <input
-    type="password"
-    placeholder="Password"
-    className="border p-2 w-full mb-3"
-    onChange={(e)=>setForm({...form,password:e.target.value})}
-    />
+   <input
+  type="password"
+  placeholder="Password"
+  className="border p-2 w-full mb-3"
+  value={form.password}  // bind value
+  onChange={(e)=>setForm({...form,password:e.target.value})}
+/>
 
-    <button className="bg-green-600 text-white w-full p-2 rounded">
+    <button className="bg-green-600 text-white w-full p-2 rounded" type="submit" onClick={handleSubmit}>
      Login
     </button>
 

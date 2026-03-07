@@ -10,17 +10,27 @@ import StatsCards from "../../components/StatsCard";
 export default function Dashboard(){
 
  const [books,setBooks]=useState([])
+const userId=""
+ const fetchBooks = async () => {
+    try {
+      const data = await getBooks();
+      console.log("Books fetched:", data);
+      if (data.books) {
+        setBooks(data.books);
 
- const fetchBooks = async(filters={})=>{
+;      } else {
+        setBooks([]);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch books");
+    }
+  };
 
-  const data = await getBooks(filters)
-
-  setBooks(data.book||[])
- }
-
- useEffect(()=>{
-  fetchBooks()
- },[])
+  // Initial fetch
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
  return(
 
@@ -32,7 +42,7 @@ export default function Dashboard(){
 
    <StatsCards books={books}/>
 
-   <BookForm refresh={fetchBooks}/>
+   <BookForm refresh={fetchBooks} books={books}/>
 
    <FilterBar onFilter={fetchBooks}/>
 
