@@ -37,6 +37,7 @@ const bookSchema = new mongoose.Schema({
   },
 
   userId:{
+    required:[true,"User ID is required"],
     type:mongoose.Schema.Types.ObjectId,
     ref:"User"
   }

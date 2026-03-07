@@ -43,3 +43,73 @@ Tech Stack:
 │  └─ generateToken.js     # JWT token generator
 ├─ package.json
 └─ README.md
+
+
+Personal Book Manager - Frontend
+Overview
+  This is the frontend of the Personal Book Manager project, built using Next.js (App Router) with Tailwind CSS for styling.
+
+It provides a responsive, user-friendly interface to:
+  * Sign up, log in, and log out securely
+  * View, add, edit, and delete books
+  * Filter books by status or tags
+  * View dashboard stats (total books, reading status, etc.)
+The frontend communicates with a Node.js + Express backend via REST APIs using JWT authentication.
+
+
+Tech Stack:
+  * Next.js (App Router) – React framework for frontend
+  * Tailwind CSS – Modern utility-first CSS framework
+  * React Hot Toast – Notifications for success/error
+  * Fetch API / API Service Module – Handles API requests
+  * Environment Variables – NEXT_PUBLIC_BASEURL for API URL
+
+
+  library/
+│
+├─ src/
+│   ├─ app/
+│   │   ├─ layout.js         # Root layout with Navbar
+│   │   ├─ page.js           # Home page
+│   │   ├─ dashboard/
+│   │   │   └─ page.js       # Dashboard page with books, filter, stats
+│   │   ├─ login/
+│   │   │   └─ page.js       # Login page
+│   │   ├─ signup/
+│   │   │   └─ page.js       # Signup page
+│   │   └─ globals.css       # Global Tailwind CSS
+│   │
+│   ├─ components/
+│   │   ├─ Navbar.js          # Navigation bar
+│   │   ├─ BookCard.js        # Book display card with edit/delete
+│   │   ├─ BookForm.js        # Add/Edit book form
+│   │   ├─ FilterBar.js       # Filter books by status/tags
+│   │   └─ StatsCards.js      # Dashboard stats
+│   │
+│   └─ services/
+│       └─ api.js            # API calls to backend
+│
+├─ .env.local                # Environment variable: NEXT_PUBLIC_BASEURL
+├─ package.json
+└─ next.config.js
+
+Key Features / Pages
+ * Navbar
+ * Shows Book Manager on the left
+ * Links to Home, Dashboard, Login, Sign Up
+ * Conditional display based on authentication
+ Home Page
+  * Simple landing page with app description
+ Login / Signup
+  * Forms with email and password fields
+  * On successful login/signup, JWT token is stored in localStorage
+  * Shows toast notifications for success/error
+ Dashboard
+  * Lists all books for logged-in user
+  * Add, edit, delete books using forms and modals
+  * Filter books by status (Want to Read, Reading, Completed) and tags
+  * Shows statistics (total books, books by status)
+ Book Management
+  * BookForm.js handles add/edit books
+  * BookCard.js displays book info and actions
+  * FilterBar.js filters books dynamically
