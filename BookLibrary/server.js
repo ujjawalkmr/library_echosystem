@@ -1,10 +1,6 @@
-const dotenv = require("dotenv");
-const connectDB = require("./config/db");
 const app = require("./app");
 
-dotenv.config();
 
-connectDB();
 // app.get("/", (req,res)=>{
 //     res.send("Backend Running");
 // });
