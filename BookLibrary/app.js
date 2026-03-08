@@ -24,7 +24,7 @@ app.use(express.json());
 // Root route (to check API working)
 app.get("/", (req, res) => {
     console.log("Backend start on server");
-  res.send("Backend Running on server");
+  res.send("Backend Running with access");
 });
 console.log("server hit");
 app.use("/api/auth",authRoutes);

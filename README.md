@@ -42,6 +42,16 @@ Tech Stack:
 ├─ utils/
 │  └─ generateToken.js     # JWT token generator
 ├─ package.json
+ 
+ URLs:
+  * https://library-echosystem.vercel.app/api/auth/signup
+  * https://library-echosystem.vercel.app/api/auth/login
+  * https://library-echosystem.vercel.app/api/books --> get book
+  * https://library-echosystem.vercel.app/api/:id  --> update
+  * https://library-echosystem.vercel.app/api/:id  --> delete
+  * https://library-echosystem.vercel.app/api/filter  --> filter
+
+
 
 
 
