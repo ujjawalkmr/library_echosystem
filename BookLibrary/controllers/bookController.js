@@ -26,7 +26,7 @@ exports.addBook = async (req,res) => {
 
 // Get Books
 exports.getBooks = async (req,res) => {
-
+console.log("id is :",req.userId);
  try{
     
  const books = await Book.find({userId:req.userId});

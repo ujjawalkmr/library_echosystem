@@ -25,7 +25,7 @@ Tech Stack:
  * Authentication: JWT
  * Middleware: CORS, JSON body parser
 
- library_echosystem/
+ library_echosystem/BookLibrary
 ├─ app.js                  # Main Express app
 ├─ server.js               # Server entry point
 ├─ routes/
@@ -42,7 +42,7 @@ Tech Stack:
 ├─ utils/
 │  └─ generateToken.js     # JWT token generator
 ├─ package.json
-└─ README.md
+
 
 
 Personal Book Manager - Frontend

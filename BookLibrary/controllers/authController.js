@@ -4,7 +4,7 @@ const generateToken = require("../utils/generateToken");
 
 // Signup
 exports.signup = async (req, res) => {
-
+console.log("signup start");
     try {
         const { name, email, password } = req.body;
         const userExists = await User.findOne({ email });
@@ -17,6 +17,8 @@ exports.signup = async (req, res) => {
             email,
             password: hashedPassword
         });
+        console.log("signup end");
+
         res.status(200).json({ user, message: "User sign done" });
 
     } catch (error) {
