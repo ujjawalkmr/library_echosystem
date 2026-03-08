@@ -10,6 +10,15 @@ dotenv.config();
 
 connectDB();
 
+const corsOptions = {
+  origin:  [
+      process.env.FRONTEND_URI, 
+      process.env.FRONTEND_LOCAL_URI
+    ], 
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(cors());
 app.use(express.json());
 // Root route (to check API working)
