@@ -1,5 +1,5 @@
-const API = process.env.NEXT_PUBLIC_BASEURL;
-console.log("base url is :",API)
+const API = `${process.env.NEXT_PUBLIC_BASEURL}/api`;
+// console.log("base url is :",API)
 /* ---------------- AUTH ---------------- */
 
 export const signupUser = async (data) => {
