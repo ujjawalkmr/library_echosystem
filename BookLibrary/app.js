@@ -11,12 +11,12 @@ dotenv.config();
 connectDB();
 
 const corsOptions = {
-  origin:  [
-      "http://localhost:3000", 
-      "library-echosystem-frontend.vercel.app"
-    ], 
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
+  origin: [
+    "https://library-echosystem-frontend.vercel.app",
+    "http://localhost:3000"
+  ].filter(Boolean),
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 };
 app.use(cors(corsOptions));
 app.use(cors());
@@ -24,7 +24,7 @@ app.use(express.json());
 // Root route (to check API working)
 app.get("/", (req, res) => {
     console.log("Backend start on server");
-  res.send("Backend Running startss");
+  res.send("Backend Running start");
 });
 console.log("server hit");
 app.use("/api/auth",authRoutes);
