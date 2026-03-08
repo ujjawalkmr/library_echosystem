@@ -12,8 +12,8 @@ connectDB();
 
 const corsOptions = {
   origin:  [
-      process.env.FRONTEND_URI, 
-      process.env.FRONTEND_LOCAL_URI
+      "http://localhost:3000", 
+      "library-echosystem-frontend.vercel.app"
     ], 
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
@@ -24,7 +24,7 @@ app.use(express.json());
 // Root route (to check API working)
 app.get("/", (req, res) => {
     console.log("Backend start on server");
-  res.send("Backend Running with origin access");
+  res.send("Backend Running start");
 });
 console.log("server hit");
 app.use("/api/auth",authRoutes);
