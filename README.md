@@ -123,3 +123,6 @@ Key Features / Pages
   * BookForm.js handles add/edit books
   * BookCard.js displays book info and actions
   * FilterBar.js filters books dynamically
+
+  URL:
+   * https://library-echosystem-frontend.vercel.app
