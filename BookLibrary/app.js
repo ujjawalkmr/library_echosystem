@@ -23,12 +23,12 @@ app.use(cors());
 app.use(express.json());
 // Root route (to check API working)
 app.get("/", (req, res) => {
-    console.log("Backend start on server");
-  res.send("Backend Running start");
+  console.log("Backend start on server");
+  res.send("Backend Running starssss");
 });
 console.log("server hit");
-app.use("/api/auth",authRoutes);
-app.use("/api/books",bookRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/books", bookRoutes);
 
 module.exports = app;
 
