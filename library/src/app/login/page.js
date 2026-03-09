@@ -4,60 +4,63 @@ import { useState } from "react";
 import { loginUser } from "../../services/api";
 import { useRouter } from "next/navigation";
 
-export default function Login(){
+export default function Login() {
 
- const router = useRouter()
+  const router = useRouter()
 
- const [form,setForm]=useState({
-  email:"",
-  password:""
- })
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  })
 
- const handleSubmit = async(e)=>{
-  e.preventDefault();   // MUST be first
-  console.log("coming data is: login page");
-  
-  const data = await loginUser(form);
-  console.log("API response:", data);
-  
-  if (data.token) {
-    localStorage.setItem("token", data.token);
-    router.push("/dashboard");
-  }}
+  const handleSubmit = async (e) => {
+    e.preventDefault();   // MUST be first
+    console.log("coming data is: login page");
 
- return(
+    const data = await loginUser(form);
+    console.log("API response:", data);
+    console.log("responsne check :", data.user._id);
 
-  <div className="flex justify-center mt-10">
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.user._id);
+      router.push("/dashboard");
+    }
+  }
 
-   <form
-   onSubmit={handleSubmit}
-   className="bg-white p-6 shadow rounded w-96">
+  return (
 
-    <h2 className="text-xl font-bold mb-4">
-     Login
-    </h2>
+    <div className="flex justify-center mt-10">
 
-    <input
-  placeholder="Email"
-  className="border p-2 w-full mb-3"
-  value={form.email}   // bind value
-  onChange={(e)=>setForm({...form,email:e.target.value})}
-/>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 shadow rounded w-96">
 
-   <input
-  type="password"
-  placeholder="Password"
-  className="border p-2 w-full mb-3"
-  value={form.password}  // bind value
-  onChange={(e)=>setForm({...form,password:e.target.value})}
-/>
+        <h2 className="text-xl font-bold mb-4">
+          Login
+        </h2>
 
-    <button className="bg-green-600 text-white w-full p-2 rounded" type="submit" onClick={handleSubmit}>
-     Login
-    </button>
+        <input
+          placeholder="Email"
+          className="border p-2 w-full mb-3"
+          value={form.email}   // bind value
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
 
-   </form>
+        <input
+          type="password"
+          placeholder="Password"
+          className="border p-2 w-full mb-3"
+          value={form.password}  // bind value
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+        />
 
-  </div>
- )
+        <button className="bg-green-600 text-white w-full p-2 rounded" type="submit" onClick={handleSubmit}>
+          Login
+        </button>
+
+      </form>
+
+    </div>
+  )
 }
