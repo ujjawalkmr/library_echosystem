@@ -1,42 +1,66 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState, useEffect } from "react";
 import { addBook } from "../services/api";
 import toast from "react-hot-toast";  // import toast
 
-export default function BookForm({ refresh ,books}) {
-const userId = books.length > 0 ? books[0].userId : null;
+export default function BookForm({ refresh, books }) {
   const [form, setForm] = useState({
     title: "",
     author: "",
     tags: "",
     status: "Want to Read",
-    userId:userId
+    userId: "", // initialize empty
   });
 
+  // Load userId only on client
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userId = localStorage.getItem("userId");
+      const id = books[0]?.userId || userId;
+      setForm((prev) => ({ ...prev, userId: id }));
+    }
+  }, [books]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const token = localStorage.getItem("token");
-  if (!token) {
-    toast.error("You must be logged in!");
-    return;
-  }
+    let token;
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("token");
+    }
+    if (!token) {
+      toast.error("You must be logged in!");
+      return;
+    }
 
-  const payload = { ...form, tags: form.tags.split(",") ,userId:userId};
-  console.log("payload is :",payload);
+    const payload = { ...form, tags: form.tags.split(",").map(t => t.trim()) };
+    console.log("payload is :", payload);
 
-  try {
-    const res = await addBook(payload);
-    console.log("Book added:", res); //
-    toast.success("Book added successfully!");
-    refresh(); // make sure this triggers fetchBooks
-    setForm({ title: "", author: "", tags: "", status: "Want to Read" });
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to add book");
-  }
-};
+    try {
+      const res = await addBook(payload);
+      console.log("Book added:", res);
+      toast.success("Book added successfully!");
+      refresh();
+
+      // reset form but keep userId intact from state
+      setForm({
+        title: "",
+        author: "",
+        tags: "",
+        status: "Want to Read",
+        userId: form.userId,
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add book");
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit}
