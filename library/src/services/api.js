@@ -22,24 +22,47 @@ export const loginUser = async (data) => {
     },
     body: JSON.stringify(data),
   });
-console.log("commimg data is:",res.json);
+  console.log("commimg data is:", res.json);
   return res.json();
 };
 
 /* ---------------- BOOKS ---------------- */
 
-export const getBooks = async (filters = {}) => {
+export const getBooks = async ({ status, tag } = {}) => {
   const token = localStorage.getItem("token");
 
-  const query = new URLSearchParams(filters).toString();
+  // const query = new URLSearchParams();
+  // if (status) query.append("status", status);
+  // if (tag) query.append("tag", tag);
 
-  const res = await fetch(`${API}/books?${query}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  let tagsArray = [];
+  if (typeof tag === "string") {
+    tagsArray = tag.split(",").map(t => t.trim()); // "wrg,qed" → ["wrg","qed"]
+  } else if (Array.isArray(tag)) {
+    tagsArray = tag;
+  }
+  if (!status && !tag) {
+    const res = await fetch(`${API}/books`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
 
-  return res.json();
+      },
+    }); return res.json();
+  } else {
+    const res = await fetch(`${API}/books/filter`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+
+      }, body: JSON.stringify({
+        status: status,  // ensure array
+        tags: tagsArray,
+      })
+    }); return res.json();
+  }
+
+
 };
 
 export const addBook = async (data) => {
@@ -65,13 +88,28 @@ export const deleteBook = async (id) => {
       Authorization: `Bearer ${token}`,
     },
   });
-
+  console.log("delete response is :", localStorage.getItem("usserId"));
   return res.json();
 };// src/services/api.js
 export const updateBook = async (id, data) => {
   const token = localStorage.getItem("token");
   const res = await fetch(`${API}/books/${id}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};
+
+
+export const FilterBook = async (filters = {}) => {
+  const token = localStorage.getItem("token");
+  console.log("filters in API is :", filters);
+  const res = await fetch(`${API}/books/filter${filters}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
